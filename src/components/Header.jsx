@@ -90,13 +90,13 @@ export default function Header() {
               <div>
                 <Link
                   className="font-semibold hover:bg-white text-lg hover:text-websiteColor rounded-md px-2 py-1 mr-3 "
-                  to=""
+                  to="Login"
                 >
                   Sign in
                 </Link>
                 <Link
                   className="font-semibold hover:bg-white text-lg hover:text-websiteColor rounded-md px-4 py-1 border  "
-                  to=""
+                  to="Register"
                 >
                   Join
                 </Link>
