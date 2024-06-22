@@ -1,17 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
-
+import AuthGoogle from "../../components/public/AuthGoogle";
+import { registerUser } from "../../utils/api";
+import { useNavigate } from "react-router-dom";
+import { FaCheckCircle } from "react-icons/fa";
+import { MdOutlineError } from "react-icons/md";
 export default function SignUp() {
   const [failMessage, setFailMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const clearSwitch = useRef(null);
+
+  useEffect(() => {
+    // if (userIsLoggedIn) {
+    //   navigate("/panel");
+    // }
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
+
+  useEffect(() => {
+    return () => clearTimeout(clearSwitch.current);
+  }, []);
+
   const {
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
     watch,
   } = useForm();
-  function onSubmit(data) {}
+  const navigate = useNavigate();
+
+  async function onSubmit(data) {
+    console.log(data);
+    const result = await registerUser(data);
+    console.log(result);
+
+    if (result.success) {
+      setSuccessMessage(
+        "Congratulations, your account has been successfully created."
+      );
+      setFailMessage("");
+      clearSwitch.current = setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    } else {
+      setFailMessage(result.message);
+    }
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }
   return (
     <div className="register  d-flex justify-content-center align-items-center flex-column ">
       <Helmet>
@@ -26,16 +62,16 @@ export default function SignUp() {
       >
         {failMessage && (
           <div>
-            <h2 className="bg-white text-danger rounded-1 mb-10 fs-2 py-3 d-flex justify-content-center align-items-center">
-              <MdOutlineError className="error" />
+            <h2 className="bg-white text-red-700 rounded-md mb-10  mx-5 py-3 flex justify-center items-center">
+              <MdOutlineError  />
               {failMessage}
             </h2>
           </div>
         )}
         {successMessage && (
           <div>
-            <h2 className="bg-white text-success rounded-1 mb-5 fs-3 py-3 px-3  d-flex justify-content-center align-align-items-baseline ">
-              <FaCheckCircle className="check" />
+            <h2 className="bg-white text-green-700 rounded-md mb-5 mx-5 py-3 px-3  flex justify-center items-center ">
+              <FaCheckCircle  />
               {successMessage}
             </h2>
           </div>
@@ -51,18 +87,18 @@ export default function SignUp() {
               {...register("fullName", {
                 required: "You must enter your Full Name",
                 minLength: {
-                  value: 3,
-                  message: "Full Name must be 3 Characters at least",
+                  value: 8,
+                  message: "Full Name must be 8 Characters at least",
                 },
                 maxLength: {
-                  value: 10,
-                  message: "Full Name must be 10 Characters at most",
+                  value: 20,
+                  message: "Full Name must be 20 Characters at most",
                 },
               })}
             />
             {errors.fullName && (
-              <p classfullName="px-2 py-1 text-white bg-red-800 mt-3 roundedmd">
-                {errors.name.message}
+              <p className="px-2 py-1 text-white bg-red-800 mt-3 rounded-md">
+                {errors.fullName.message}
               </p>
             )}
           </div>
@@ -80,8 +116,8 @@ export default function SignUp() {
                   message: "Email must be 3 Characters at least",
                 },
                 maxLength: {
-                  value: 10,
-                  message: "Email must be 10 Characters at most",
+                  value: 30,
+                  message: "Email must be 30 Characters at most",
                 },
               })}
             />
@@ -127,7 +163,7 @@ export default function SignUp() {
                 required: "You must enter your Password",
                 minLength: {
                   value: 6,
-                  message: "Password must be 3 Characters at least",
+                  message: "Password must be 6 Characters at least",
                 },
                 maxLength: {
                   value: 10,
@@ -170,9 +206,13 @@ export default function SignUp() {
                 <input
                   type="radio"
                   name="role"
+                  value="user"
                   className="mr-1 "
                   id="user"
-                  {...register("role")}
+                  {...register("role", {
+                    value: true,
+                    message: "Please select your role",
+                  })}
                 />
                 <label className="text-white text-lg" htmlFor="user">
                   user
@@ -182,9 +222,13 @@ export default function SignUp() {
                 <input
                   type="radio"
                   name="role"
+                  value="seller"
                   className="mr-1 "
                   id="seller"
-                  {...register("role")}
+                  {...register("role", {
+                    value: true,
+                    message: "Please select your role",
+                  })}
                 />
                 <label className="text-white text-lg" htmlFor="seller">
                   seller
@@ -204,7 +248,9 @@ export default function SignUp() {
                 type="checkbox"
                 value=""
                 id="flexCheckDefault"
-                {...register("policy")}
+                {...register("policy", {
+                  required: "You should accept the terms and conditions",
+                })}
               />
               <label
                 className="check-label text-white fs-4"
@@ -213,19 +259,34 @@ export default function SignUp() {
                 I accept the Terms of Use & Privacy Policy
               </label>
             </div>
+            {errors.policy && (
+              <p className="px-2 py-1 text-white bg-red-800 mt-3 rounded-md">
+                {errors.policy.message}
+              </p>
+            )}
           </div>
           <div className="mt-10 text-center">
             {isSubmitting ? (
               <button type="submit" className="btn-submit disabled">
-                <span className="spinner-grow spinner-spinner-grow-sm"></span>
+                <span className="bg-white w-full text-websiteColor rounded-md opacity-50 px-5 py-2 font-bold">
+                  Sing Up
+                </span>
               </button>
             ) : (
-              <button
-                type="submit"
-                className="bg-white text-websiteColor rounded-md hover:bg-emerald-200 px-5 py-2 font-bold"
-              >
-                Sing Up
-              </button>
+              <div>
+                <button
+                  type="submit"
+                  className="bg-white w-full text-websiteColor rounded-md hover:bg-emerald-100 px-5 py-2 font-bold"
+                >
+                  Sing Up
+                </button>
+                <div className="flex justify-center items-center my-7">
+                  <span className="w-full h-px bg-slate-300 opacity-50"></span>
+                  <span className="mx-2 text-gray-300 opacity-50">or</span>
+                  <span className="w-full h-px bg-slate-300 opacity-50"></span>
+                </div>
+                <AuthGoogle />
+              </div>
             )}
           </div>
         </div>

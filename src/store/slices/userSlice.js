@@ -3,9 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   userInfo: {
     isLoggedIn: false,
-    isAdmin: false,
+    isSeller: false,
     username: "admin",
-    image: "",
+    userId: "",
+    fullName: "",
+    email: "",
   },
   initialized: false,
   initializeError: false,
@@ -16,7 +18,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action) {
-      state.user = action.payload;
+      state.userInfo = action.payload;
     },
   },
 });

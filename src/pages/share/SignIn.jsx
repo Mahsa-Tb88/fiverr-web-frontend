@@ -1,17 +1,49 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
-
+import AuthGoogle from "../../components/public/AuthGoogle";
+import { FaCheckCircle } from "react-icons/fa";
+import { MdOutlineError } from "react-icons/md";
+import { login } from "../../utils/api";
+import { useDispatch } from "react-redux";
+import { userActions } from "../../store/slices/userSlice";
+import { useNavigate } from "react-router-dom";
 export default function SignIn() {
   const [failMessage, setFailMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
     watch,
   } = useForm();
-  function onSubmit(data) {}
+
+  async function onSubmit(data) {
+    console.log(data);
+    const result = await login({
+      username: data.username,
+      password: data.password,
+    });
+    if (result.success) {
+      let user;
+      console.log(result);
+      result.body = user;
+      const newUser = {
+        isLoggedIn: true,
+        isSeller: user.role == "seller",
+        username: user.username,
+        userId: user.userId,
+        fullName: user.fullName,
+        email: user.email,
+      };
+      dispatch({ type: "setUser", payload: newUser });
+      navigate("/");
+    } else {
+      setFailMessage(result.message);
+    }
+  }
   return (
     <div className="register  d-flex justify-content-center align-items-center flex-column ">
       <Helmet>
@@ -112,12 +144,20 @@ export default function SignIn() {
                 <span className="spinner-grow spinner-spinner-grow-sm"></span>
               </button>
             ) : (
-              <button
-                type="submit"
-                className="bg-white text-websiteColor rounded-md hover:bg-emerald-200 px-5 py-2 font-bold"
-              >
-                Sing In
-              </button>
+              <div>
+                <button
+                  type="submit"
+                  className="bg-white text-websiteColor rounded-md hover:bg-emerald-100 px-5 py-2 font-bold w-full"
+                >
+                  Sing In
+                </button>
+                <div className="flex justify-center items-center my-7">
+                  <span className="w-full h-px bg-slate-300 opacity-50"></span>
+                  <span className="mx-2 text-gray-300 opacity-50">or</span>
+                  <span className="w-full h-px bg-slate-300 opacity-50"></span>
+                </div>
+                <AuthGoogle />
+              </div>
             )}
           </div>
         </div>
