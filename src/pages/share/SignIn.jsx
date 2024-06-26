@@ -22,14 +22,14 @@ export default function SignIn() {
 
   async function onSubmit(data) {
     console.log(data);
-    const result = await login({
+    const myUser = {
       username: data.username,
       password: data.password,
-    });
+    };
+    const result = await login(myUser);
+
     if (result.success) {
-      let user;
-      console.log(result);
-      result.body = user;
+      const user = result.body;
       const newUser = {
         isLoggedIn: true,
         isSeller: user.role == "seller",
@@ -38,7 +38,7 @@ export default function SignIn() {
         fullName: user.fullName,
         email: user.email,
       };
-      dispatch({ type: "setUser", payload: newUser });
+      dispatch(userActions.setUser(newUser));
       navigate("/");
     } else {
       setFailMessage(result.message);

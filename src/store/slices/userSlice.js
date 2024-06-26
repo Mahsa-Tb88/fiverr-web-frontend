@@ -4,7 +4,7 @@ const initialState = {
   userInfo: {
     isLoggedIn: false,
     isSeller: false,
-    username: "admin",
+    username: "",
     userId: "",
     fullName: "",
     email: "",

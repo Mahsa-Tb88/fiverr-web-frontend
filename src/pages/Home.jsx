@@ -194,8 +194,8 @@ export default function Home() {
         <Slider ref={sliderCart} {...settingCart} className="max-w-4xl m-auto">
           {carts.map((c) => {
             return (
-              <Slide>
-                <div key={c.id} className="relative mx-3 cursor-pointer ">
+              <Slide key={c.id}>
+                <div className="relative mx-3 cursor-pointer ">
                   <div className="absolute top-0 w-full bg-black opacity-45 hover:opacity-70 h-full rounded-md"></div>
 
                   <img src={c.img} className=" rounded-md " />
@@ -346,11 +346,8 @@ export default function Home() {
         >
           {projects.map((c) => {
             return (
-              <Slide>
-                <div
-                  key={c.id}
-                  className=" mx-3 cursor-pointer rounded-md  overflow-hidden "
-                >
+              <Slide key={c.id}>
+                <div className=" mx-3 cursor-pointer rounded-md  overflow-hidden ">
                   <img src={c.img} className=" h-44 " />
                   <div className=" flex justify-between items-center h-24  text-sm bg-white px-2 pt-2 font-semibold">
                     <div className="w-1/2 ">
