@@ -32,8 +32,14 @@ export default function SignUp() {
 
   async function onSubmit(data) {
     console.log(data);
-    const result = await registerUser(data);
-    console.log(result);
+    const user = {
+      fullName: data.fullName,
+      email: data.email,
+      password: data.password,
+      username: data.username,
+      isSeller: data.role == "seller",
+    };
+    const result = await registerUser(user);
 
     if (result.success) {
       setSuccessMessage(
@@ -63,7 +69,7 @@ export default function SignUp() {
         {failMessage && (
           <div>
             <h2 className="bg-white text-red-700 rounded-md mb-10  mx-5 py-3 flex justify-center items-center">
-              <MdOutlineError  />
+              <MdOutlineError />
               {failMessage}
             </h2>
           </div>
@@ -71,7 +77,7 @@ export default function SignUp() {
         {successMessage && (
           <div>
             <h2 className="bg-white text-green-700 rounded-md mb-5 mx-5 py-3 px-3  flex justify-center items-center ">
-              <FaCheckCircle  />
+              <FaCheckCircle />
               {successMessage}
             </h2>
           </div>

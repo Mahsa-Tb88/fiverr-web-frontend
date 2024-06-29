@@ -1,11 +1,29 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { logout } from "../utils/api";
+import { userActions } from "../store/slices/userSlice";
 
 export default function Header() {
   const user = useSelector((state) => state.user.userInfo);
-  console.log(user);
   const [isShowMenu, setIsShowMenu] = useState(false);
+  const dispatch = useDispatch();
+  async function Logout() {
+    const result = await logout();
+    if (result.success) {
+      dispatch(
+        userActions.setUser({
+          isLoggedIn: false,
+          isSeller: false,
+          username: "",
+          userId: "",
+          fullName: "",
+          email: "",
+        })
+      );
+    } else {
+    }
+  }
   return (
     <div className="bg-websiteColor text-white relative">
       <div className="max-w-5xl flex justify-between items-center m-auto h-20 ">
@@ -78,12 +96,12 @@ export default function Header() {
                     >
                       Messages
                     </Link>
-                    <Link
+                    <div
                       className="hover:bg-websiteColor rounded-md w-full py-1 pl-2 hover:text-white"
-                      to="/logOut"
+                      onClick={() => Logout()}
                     >
                       Logout
-                    </Link>
+                    </div>
                   </div>
                 )}
               </div>

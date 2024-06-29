@@ -27,14 +27,14 @@ export default function SignIn() {
       password: data.password,
     };
     const result = await login(myUser);
-
+    console.log(result);
     if (result.success) {
       const user = result.body;
       const newUser = {
         isLoggedIn: true,
         isSeller: user.role == "seller",
         username: user.username,
-        userId: user.userId,
+        userId: user._id,
         fullName: user.fullName,
         email: user.email,
       };
@@ -57,16 +57,16 @@ export default function SignIn() {
         onSubmit={handleSubmit(onSubmit)}
       >
         {failMessage && (
-          <div>
-            <h2 className="bg-white text-danger rounded-1 mb-10 fs-2 py-3 d-flex justify-content-center align-items-center">
+          <div className="w-3/4 mx-auto">
+            <h2 className="bg-white text-red-700 rounded-md mb-10  py-3 flex  justify-center items-center">
               <MdOutlineError className="error" />
               {failMessage}
             </h2>
           </div>
         )}
         {successMessage && (
-          <div>
-            <h2 className="bg-white text-success rounded-1 mb-5 fs-3 py-3 px-3  d-flex justify-content-center align-align-items-baseline ">
+          <div className="w-3/4 mx-auto">
+            <h2 className="bg-white text-green-700 rounded-md mb-10  py-3 flex  justify-center items-center">
               <FaCheckCircle className="check" />
               {successMessage}
             </h2>

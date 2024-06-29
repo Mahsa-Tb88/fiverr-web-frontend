@@ -6,7 +6,7 @@ import { CiCircleCheck } from "react-icons/ci";
 export default function Home() {
   const sliderCart = useRef(null);
   const sliderProject = useRef(null);
-  // const [carts, setCarts] = useState([]);
+ 
   const carts = [
     {
       id: 1,
