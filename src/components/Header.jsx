@@ -1,29 +1,20 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { logout } from "../utils/api";
-import { userActions } from "../store/slices/userSlice";
+import { Link, useNavigate } from "react-router-dom";
+import newRequest from "../utils/api";
 
 export default function Header() {
-  const user = useSelector((state) => state.user.userInfo);
   const [isShowMenu, setIsShowMenu] = useState(false);
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
   async function Logout() {
-    const result = await logout();
-    if (result.success) {
-      dispatch(
-        userActions.setUser({
-          isLoggedIn: false,
-          isSeller: false,
-          username: "",
-          userId: "",
-          fullName: "",
-          email: "",
-        })
-      );
-    } else {
+    try {
+      await newRequest.post("/auth/logOut");
+      localStorage.setItem("currentUser", null);
+      navigate("/");
+    } catch (err) {
+      console.log(err);
     }
   }
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   return (
     <div className="bg-websiteColor text-white relative">
       <div className="max-w-5xl flex justify-between items-center m-auto h-20 ">
@@ -50,24 +41,21 @@ export default function Header() {
             >
               English
             </Link>
-            {user.isLoggedIn ? (
+            {currentUser ? (
               <div
                 className="flex justify-between items-center cursor-pointer "
-                // onClick={
-                //   isShowMenu ? setIsShowMenu(false) : setIsShowMenu(true)
-                // }
                 onClick={() =>
                   isShowMenu ? setIsShowMenu(false) : setIsShowMenu(true)
                 }
               >
-                <p>{user.username}</p>
+                <p>{currentUser.username}</p>
                 <img
-                  src="././public/profile.png"
+                  src={currentUser.image || "././public/profile.png"}
                   className="ml-2 w-9 h-9 rounded-full"
                 />
                 {isShowMenu && (
                   <div className="bg-slate-100 gap-2 absolute top-14 right-20 flex flex-col text-slate-600 font-semibold px-2 py-3 rounded-md w-44">
-                    {user.isSeller && (
+                    {currentUser.isSeller && (
                       <div className="flex flex-col gap-2 ">
                         <Link
                           className="hover:bg-websiteColor rounded-md w-full py-1 pl-2 hover:text-white"
@@ -86,13 +74,13 @@ export default function Header() {
 
                     <Link
                       className="hover:bg-websiteColor rounded-md w-full py-1 pl-2 hover:text-white"
-                      to="/order"
+                      to="/orders"
                     >
                       Orders
                     </Link>
                     <Link
                       className="hover:bg-websiteColor rounded-md w-full py-1 pl-2 hover:text-white"
-                      to="/message"
+                      to="/messages"
                     >
                       Messages
                     </Link>
