@@ -5,6 +5,8 @@ import SignIn from "../pages/share/SignIn";
 import SignUp from "../pages/share/SignUp";
 import Orders from "../pages/Orders";
 import Messages from "../pages/Messages";
+import Gigs from "../pages/Gigs";
+import Gig from "../pages/share/Gig";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -15,6 +17,8 @@ const router = createBrowserRouter([
       { path: "Register", element: <SignUp /> },
       { path: "orders", element: <Orders /> },
       { path: "messages", element: <Messages /> },
+      { path: "gigs", element: <Gigs /> },
+      { path: "gig/:id", element: <Gig /> },
     ],
   },
 ]);
