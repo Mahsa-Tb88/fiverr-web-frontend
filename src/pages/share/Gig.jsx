@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import newRequest from "../../utils/api";
 import { useParams } from "react-router-dom";
+import { Slider } from "infinite-react-carousel";
+import Reviews from "../../components/Reviews";
 
 export default function Gig() {
   const params = useParams();
@@ -13,8 +15,19 @@ export default function Gig() {
         return res.data;
       }),
   });
-  console.log(data);
-
+  const userId = data?.userId;
+  const {
+    isPending: isUserPending,
+    error: userError,
+    data: userData,
+  } = useQuery({
+    queryKey: ["user"],
+    queryFn: () =>
+      newRequest.get(`/api/user/${userId}`).then((res) => {
+        return res.data;
+      }),
+    enabled: !!userId,
+  });
   return (
     <div className="w-5/6 mx-auto ">
       {isPending ? (
@@ -22,35 +35,57 @@ export default function Gig() {
       ) : error ? (
         "something went wrong"
       ) : (
-        <div className="flex flex-row my-10">
-          <div className="basis-3/4">
+        <div className="flex flex-row  my-10">
+          <div className="basis-3/5">
             <h1 className="text-slate-900 font-bold text-3xl">{data.title}</h1>
             <div className="my-5 flex justify-start items-center">
-              <img
-                src={data.image || "../public/profile.png"}
-                width={25}
-                className="rounded-full mr-3"
-              />
-              <span className="text-slate-700 font-semibold">name family</span>
-              <img
-                src="../public/img/star.png"
-                width={15}
-                className="ml-3 mr-1"
-              />
-              <span className="text-yellow-500">
-                {Math.floor(data.numberStar / data.totalStars)}
-              </span>
+              {isUserPending ? (
+                "loading user"
+              ) : userError ? (
+                "user error"
+              ) : (
+                <div className="flex justify-start items-center">
+                  <img
+                    src={userData.image || "../public/profile.png"}
+                    width={25}
+                    className="rounded-full mr-3"
+                  />
+                  <span className="text-slate-700 font-semibold mr-2">
+                    {userData.username}
+                  </span>
+                </div>
+              )}
+
+              {!isNaN(Math.floor(data.numberStar / data.totalStars)) &&
+                Array(Math.floor(data.numberStar / data.totalStars))
+                  .fill()
+                  .map((s, i) => {
+                    return (
+                      <img
+                        src="../public/img/star.png"
+                        width={15}
+                        key={i}
+                        className=""
+                      />
+                    );
+                  })}
             </div>
             <div>
-              <img src={data.cover} />
+              <Slider>
+                {data.images.map((img, index) => {
+                  return <img src={img} key={index} />;
+                })}
+              </Slider>
             </div>
             <div>
               <h4 className="text-lg mt-5 mb-3">About this gig</h4>
               <p>{data.desc}</p>
             </div>
+
+            <Reviews gigId={id} />
           </div>
-          <div className="basis-1/4">
-            <div className="border border-1 rounded-md px-2 py-3">
+          <div className="basis-2/4  ">
+            <div className="border border-1 rounded-md px-2 py-3 w-3/4 mx-auto float-end">
               <div className="flex justify-between items-center">
                 <h3 className="font-bold">{data.shortTitle}</h3>
                 <span className="font-semibold">${data.price}</span>
@@ -77,9 +112,9 @@ export default function Gig() {
                 </div>
               </div>
               <div className="flex flex-col my-5">
-                {data.features.map((f) => {
+                {data.features.map((f, i) => {
                   return (
-                    <div className="flex justify-start items-center">
+                    <div className="flex justify-start items-center" key={i}>
                       <img
                         src="../public/img/greencheck.png"
                         width={12}

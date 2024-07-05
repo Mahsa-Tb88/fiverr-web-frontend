@@ -1,12 +1,9 @@
 import React, { useRef, useState } from "react";
-import { IoSearchOutline } from "react-icons/io5";
 import Slide from "../components/Slide";
-import Slider from "react-slick";
-import { CiCircleCheck } from "react-icons/ci";
 export default function Home() {
   const sliderCart = useRef(null);
   const sliderProject = useRef(null);
- 
+
   const carts = [
     {
       id: 1,
@@ -146,7 +143,7 @@ export default function Home() {
             </p>
             <div className="flex justify-between items-center mt-8 border border-transparent overflow-hidden  rounded-md ">
               <div className="flex justify-between items-center w-full bg-white">
-                <IoSearchOutline className="text-slate-900 mx-2 font-semibold " />
+                {/* <IoSearchOutline className="text-slate-900 mx-2 font-semibold " /> */}
                 <input className="py-2 w-full border-none outline-none text-slate-700 font-semibold text-lg h-11" />
               </div>
               <button className="px-3 bg-green-500 py-2 h-11 hover:bg-green-700">
@@ -191,7 +188,7 @@ export default function Home() {
 
       {/*  slider carts */}
       <div className=" m-auto my-16 bg-green-300">
-        <Slider ref={sliderCart} {...settingCart} className="max-w-4xl m-auto">
+       {/*  <Slider ref={sliderCart} {...settingCart} className="max-w-4xl m-auto">
           {carts.map((c) => {
             return (
               <Slide key={c.id}>
@@ -208,7 +205,7 @@ export default function Home() {
               </Slide>
             );
           })}
-        </Slider>
+        </Slider> */}
       </div>
 
       {/*  fingertips */}
@@ -221,7 +218,6 @@ export default function Home() {
             </h3>
             <div className="mb-3">
               <div className="flex justify-start items-center">
-                <CiCircleCheck className="mr-2" />
                 <h5 className="text-slate-700 font-semibold text-lg">
                   The best for every budget
                 </h5>
@@ -233,7 +229,6 @@ export default function Home() {
             </div>
             <div className="mb-3">
               <div className="flex justify-start items-center">
-                <CiCircleCheck className="mr-2" />
                 <h5 className="text-slate-700 font-semibold text-lg">
                   Quality work done quickly
                 </h5>
@@ -244,7 +239,6 @@ export default function Home() {
             </div>
             <div className="mb-3">
               <div className="flex justify-start items-center">
-                <CiCircleCheck className="mr-2" />
                 <h5 className="text-slate-700 font-semibold text-lg">
                   Protected payments, every time
                 </h5>
@@ -256,7 +250,6 @@ export default function Home() {
             </div>
             <div className="mb-3">
               <div className="flex justify-start items-center">
-                <CiCircleCheck className="mr-2" />
                 <h5 className="text-slate-700 font-semibold text-lg">
                   Protected payments, every time
                 </h5>
@@ -292,19 +285,16 @@ export default function Home() {
             </h3>
             <div className="my-6">
               <div className="flex justify-start items-center mb-3">
-                <CiCircleCheck className="mr-2 text-slate-100" />
                 <h5 className="text-slate-100  text-lg">
                   Protected payments, every time
                 </h5>
               </div>
               <div className="flex justify-start items-center mb-3">
-                <CiCircleCheck className="mr-2 text-slate-100" />
                 <h5 className="text-slate-100  text-lg">
                   Quality work done quickly
                 </h5>
               </div>
               <div className="flex justify-start items-center mb-3">
-                <CiCircleCheck className="mr-2 text-slate-100" />
                 <h5 className="text-slate-100  text-lg">
                   The best for every budget
                 </h5>
@@ -338,7 +328,7 @@ export default function Home() {
       </div>
 
       {/* slider products */}
-      <div className=" m-auto my-16 bg-green-300">
+      {/* <div className=" m-auto my-16 bg-green-300">
         <Slider
           ref={sliderProject}
           {...settingProject}
@@ -363,7 +353,7 @@ export default function Home() {
             );
           })}
         </Slider>
-      </div>
+      </div> */}
     </div>
   );
 }

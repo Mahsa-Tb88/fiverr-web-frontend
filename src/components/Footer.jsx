@@ -1,11 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaFacebook } from "react-icons/fa6";
-import { TiSocialInstagram } from "react-icons/ti";
-import { FaLinkedin } from "react-icons/fa";
-import { FaSquareTwitter } from "react-icons/fa6";
-import { FaSquareYoutube } from "react-icons/fa6";
-import { TfiWorld } from "react-icons/tfi";
 
 export default function Footer() {
   return (
@@ -229,29 +223,17 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        <hr  />
+        <hr />
         <div className="flex justify-between items-center mt-3">
           <h4 className="text-gray-500 font-extrabold">FIVERR.</h4>
           <div className="flex justify-between items-center gap-4">
-            <Link className="text-gray-400 text-xl">
-              <FaFacebook />
-            </Link>
-            <Link className="text-gray-400 text-xl">
-              <TiSocialInstagram />
-            </Link>
-            <Link className="text-gray-400 text-xl">
-              <FaLinkedin />
-            </Link>
-            <Link className="text-gray-400 text-xl">
-              <FaSquareTwitter />
-            </Link>
-            <Link className="text-gray-400 text-xl">
-              <FaSquareYoutube />
-            </Link>
+            <Link className="text-gray-400 text-xl"></Link>
+            <Link className="text-gray-400 text-xl"></Link>
+            <Link className="text-gray-400 text-xl"></Link>
+            <Link className="text-gray-400 text-xl"></Link>
+            <Link className="text-gray-400 text-xl">{}</Link>
 
             <div className="flex justify-center items-center gap-2 text-gray-400 ">
-              <TfiWorld className="text-xl"/>
-
               <span>English</span>
             </div>
           </div>
