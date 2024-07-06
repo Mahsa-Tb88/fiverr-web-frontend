@@ -4,13 +4,13 @@ import newRequest from "../utils/api";
 
 export default function Orders() {
   const { isPending, error, data } = useQuery({
-    queryKey: ["gig"],
+    queryKey: ["order"],
     queryFn: () =>
-      newRequest.get(`/api/order`).then((res) => {
+      newRequest.get("/api/order").then((res) => {
         return res.data;
       }),
   });
-  console.log(data);
+  
   return (
     <div className="w-4/5 mx-auto my-20">
       <h1 className="font-bold text-lg my-5">Orders</h1>
@@ -20,7 +20,7 @@ export default function Orders() {
         "error"
       ) : (
         <div>
-          <table class="table-auto border border-1 w-full">
+          <table className="table-auto border border-1 w-full">
             <thead>
               <tr className="border border-1 ">
                 <th className="border border-1 py-2">Image</th>

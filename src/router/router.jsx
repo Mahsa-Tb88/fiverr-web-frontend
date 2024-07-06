@@ -7,6 +7,7 @@ import Orders from "../pages/Orders";
 import Messages from "../pages/Messages";
 import Gigs from "../pages/Gigs";
 import Gig from "../pages/share/Gig";
+import Message from "../pages/Message";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
       { path: "Register", element: <SignUp /> },
       { path: "orders", element: <Orders /> },
       { path: "messages", element: <Messages /> },
+      { path: "message/:id", element: <Message /> },
       { path: "gigs", element: <Gigs /> },
       { path: "gig/:id", element: <Gig /> },
     ],
