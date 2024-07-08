@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import newRequest from "../utils/api";
+import { useNavigate } from "react-router-dom";
 
 export default function Orders() {
+  const navigate = useNavigate();
   const { isPending, error, data } = useQuery({
     queryKey: ["order"],
     queryFn: () =>
@@ -10,7 +12,22 @@ export default function Orders() {
         return res.data;
       }),
   });
-  
+
+  const handleContact = async (order) => {
+    const id = order.sellerId + order.buyerId;
+    console.log(order);
+    try {
+      const res = await newRequest.get(`/api/conversations/single/${id}`);
+      navigate("/message/" + res.data.id);
+    } catch (err) {
+      if (err.response.status === 404) {
+        const res = await newRequest.post(`/conversation/`, {
+          to: currentUser.seller ? order.buyerId : order.sellerId,
+        });
+        navigate("/message/" + res.data.id);
+      }
+    }
+  };
   return (
     <div className="w-4/5 mx-auto my-20">
       <h1 className="font-bold text-lg my-5">Orders</h1>
@@ -51,6 +68,7 @@ export default function Orders() {
                         src="../public/message.png"
                         width={20}
                         className="mx-auto"
+                        onClick={() => handleContact(order)}
                       />
                     </td>
                   </tr>

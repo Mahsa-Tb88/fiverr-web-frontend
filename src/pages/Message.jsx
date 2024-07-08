@@ -5,13 +5,14 @@ import newRequest from "../utils/api";
 
 const Message = () => {
   const { id } = useParams();
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
   const queryClient = useQueryClient();
 
   const { isPending, error, data } = useQuery({
     queryKey: ["messages"],
     queryFn: () =>
-      newRequest.get(`/api/message/${id}`).then((res) => {
+      newRequest.get(`/api/messages/${id}`).then((res) => {
         return res.data;
       }),
   });
@@ -19,10 +20,10 @@ const Message = () => {
 
   const mutation = useMutation({
     mutationFn: (message) => {
-      return newRequest.post("/api/message", message);
+      return newRequest.post("/api/messages", message);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["message"]);
+      queryClient.invalidateQueries(["messages"]);
     },
   });
 
@@ -51,14 +52,21 @@ const Message = () => {
           <div className="my-7">
             {data.map((c) => {
               return (
-                <div className="" key={c._id}>
+                <div
+                  className={
+                    c.userId == currentUser._id
+                      ? "bg-slate-200 p-2  flex justify-start items-center"
+                      : "bg-blue-400 p-2 flex flex-row-reverse items-center "
+                  }
+                  key={c._id}
+                >
                   <img
                     src="https://images.pexels.com/photos/270408/pexels-photo-270408.jpeg?auto=compress&cs=tinysrgb&w=1600"
                     alt=""
                     width={14}
                     className="rounded-full"
                   />
-                  <p>{c.desc}</p>
+                  <p className=" max-w-56">{c.desc}</p>
                 </div>
               );
             })}

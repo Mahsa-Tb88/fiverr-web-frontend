@@ -12,14 +12,14 @@ const Messages = () => {
   const { isPending, error, data } = useQuery({
     queryKey: ["conversations"],
     queryFn: () =>
-      newRequest.get("/api/conversation").then((res) => {
+      newRequest.get("/api/conversations").then((res) => {
         return res.data;
       }),
   });
   console.log(data);
   const mutation = useMutation({
     mutationFn: (id) => {
-      return newRequest.put(`/api/conversation/${id}`);
+      return newRequest.put(`/api/conversations/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["conversations"]);
@@ -29,6 +29,7 @@ const Messages = () => {
   const handleRead = (id) => {
     mutation.mutate(id);
   };
+
   return (
     <div className="w-4/5 mx-auto my-24">
       {isPending ? (
@@ -56,9 +57,10 @@ const Messages = () => {
                 return (
                   <tr
                     className={
-                      ((currentUser.isSeller && !c.readBySeller) ||
-                        (!currentUser.isSeller && !c.readByBuyer)) &&
-                      "bg-emerald-300"
+                      (currentUser.isSeller && !c.readBySeller) ||
+                      (!currentUser.isSeller && !c.readByBuyer)
+                        ? "bg-emerald-300"
+                        : "bg-white"
                     }
                     key={c.id}
                   >
@@ -67,7 +69,10 @@ const Messages = () => {
                     </td>
                     <td className="border border-1 text-center px-5 py-2">
                       <Link to={`/message/${c.id}`} className="link">
-                        {c.lastMessage ? c.lastMessage.substring(0, 20) : ""}...
+                        {c.lastMessage
+                          ? c.lastMessage.substring(0, 20)
+                          : "No Message yet "}
+                        ...
                       </Link>
                     </td>
                     <td className="border border-1 text-center px-5 py-2">
