@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import newRequest from "../../utils/api";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Slider } from "infinite-react-carousel";
 import Reviews from "../../components/Reviews";
 
@@ -125,9 +125,11 @@ export default function Gig() {
                   );
                 })}
               </div>
-              <button className="bg-emerald-600 text-white w-full py-1 rounded-md hover:bg-emerald-700 font-semibold">
-                Confirm
-              </button>
+              <Link to={`/pay/${id}`}>
+                <button className="bg-emerald-600 text-white w-full py-1 rounded-md hover:bg-emerald-700 font-semibold">
+                  Confirm
+                </button>
+              </Link>
             </div>
           </div>
         </div>

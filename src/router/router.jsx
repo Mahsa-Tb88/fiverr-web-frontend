@@ -8,6 +8,10 @@ import Messages from "../pages/Messages";
 import Gigs from "../pages/Gigs";
 import Gig from "../pages/share/Gig";
 import Message from "../pages/Message";
+import Pay from "../pages/Pay";
+import Success from "../pages/Success";
+import MyGigs from "../pages/MyGigs";
+import Add from "../pages/Add";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -20,7 +24,11 @@ const router = createBrowserRouter([
       { path: "messages", element: <Messages /> },
       { path: "message/:id", element: <Message /> },
       { path: "gigs", element: <Gigs /> },
+      { path: "myGigs", element: <MyGigs /> },
       { path: "gig/:id", element: <Gig /> },
+      { path: "pay/:id", element: <Pay /> },
+      { path: "success", element: <Success /> },
+      { path: "add", element: <Add /> },
     ],
   },
 ]);

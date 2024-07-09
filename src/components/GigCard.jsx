@@ -5,13 +5,13 @@ import newRequest from "../utils/api";
 
 export default function ({ item }) {
   const { isPending, error, data } = useQuery({
-    queryKey: [`${item.userId}`],
+    queryKey: [item.userId],
     queryFn: () =>
       newRequest.get(`/api/user/${item.userId}`).then((res) => {
         return res.data;
       }),
   });
-
+  console.log("item...", data);
   return (
     <Link to={`/gig/${item._id}`}>
       {isPending ? (

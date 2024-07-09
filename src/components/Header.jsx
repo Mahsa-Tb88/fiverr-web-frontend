@@ -59,7 +59,7 @@ export default function Header() {
                       <div className="flex flex-col gap-2 ">
                         <Link
                           className="hover:bg-websiteColor rounded-md w-full py-1 pl-2 hover:text-white"
-                          to="/gigs"
+                          to="/myGigs"
                         >
                           Gigs
                         </Link>

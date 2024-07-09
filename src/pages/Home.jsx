@@ -1,8 +1,16 @@
 import React, { useRef, useState } from "react";
 import Slide from "../components/Slide";
+import { useNavigate } from "react-router-dom";
 export default function Home() {
   const sliderCart = useRef(null);
   const sliderProject = useRef(null);
+
+  const [inout, setInput] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = () => {
+    navigate(`/gigs/?search=${inout}`);
+  };
 
   const carts = [
     {
@@ -144,9 +152,15 @@ export default function Home() {
             <div className="flex justify-between items-center mt-8 border border-transparent overflow-hidden  rounded-md ">
               <div className="flex justify-between items-center w-full bg-white">
                 {/* <IoSearchOutline className="text-slate-900 mx-2 font-semibold " /> */}
-                <input className="py-2 w-full border-none outline-none text-slate-700 font-semibold text-lg h-11" />
+                <input
+                  className="py-2 w-full border-none outline-none text-slate-700 font-semibold text-lg h-11"
+                  onChange={(e) => setInput(e.target.value)}
+                />
               </div>
-              <button className="px-3 bg-green-500 py-2 h-11 hover:bg-green-700">
+              <button
+                className="px-3 bg-green-500 py-2 h-11 hover:bg-green-700"
+                onClick={handleSubmit}
+              >
                 Search
               </button>
             </div>
@@ -188,7 +202,7 @@ export default function Home() {
 
       {/*  slider carts */}
       <div className=" m-auto my-16 bg-green-300">
-       {/*  <Slider ref={sliderCart} {...settingCart} className="max-w-4xl m-auto">
+        {/*  <Slider ref={sliderCart} {...settingCart} className="max-w-4xl m-auto">
           {carts.map((c) => {
             return (
               <Slide key={c.id}>

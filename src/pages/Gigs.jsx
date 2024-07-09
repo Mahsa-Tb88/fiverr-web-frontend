@@ -4,7 +4,6 @@ import newRequest from "../utils/api";
 import GigCard from "../components/GigCard";
 import { useLocation } from "react-router-dom";
 
-
 export default function Gigs() {
   const [sort, setSort] = useState("sales");
   const [open, setOpen] = useState(false);
@@ -30,7 +29,7 @@ export default function Gigs() {
           return res.data;
         }),
   });
-
+  console.log(data);
   const apply = () => {
     refetch();
   };
