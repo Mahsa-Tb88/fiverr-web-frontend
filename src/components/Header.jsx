@@ -65,7 +65,7 @@ export default function Header() {
                         </Link>
                         <Link
                           className="hover:bg-websiteColor rounded-md w-full py-1 pl-2 hover:text-white"
-                          to="/admin/newGig"
+                          to="/add"
                         >
                           Add new gig
                         </Link>

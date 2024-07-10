@@ -12,7 +12,7 @@ export default function Orders() {
         return res.data;
       }),
   });
-
+  console.log(data);
   const handleContact = async (order) => {
     const id = order.sellerId + order.buyerId;
     console.log(order);

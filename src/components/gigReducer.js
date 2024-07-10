@@ -7,13 +7,13 @@ export const INITIAL_STATE = {
   desc: "",
   shortTitle: "",
   shortDesc: "",
-  deliveryTime: "",
-  revisionNumber: "",
+  deliveryTime: 0,
+  revisionNumber: 0,
   features: [],
-  price: "",
+  price: 0,
 };
 
-export const gigReducer = async (state, action) => {
+export const gigReducer = (state, action) => {
   switch (action.type) {
     case "CHANGE_INPUT":
       return {
@@ -26,12 +26,12 @@ export const gigReducer = async (state, action) => {
         cover: action.payload.cover,
         iamges: action.payload.images,
       };
-    case "ADD_FEATURES":
+    case "ADD_FEATURE":
       return {
         ...state,
         features: [...state.features, action.payload],
       };
-    case "REMOVE_IMAGES":
+    case "REMOVE_FEATURE":
       return {
         ...state,
         features: state.features.filter(

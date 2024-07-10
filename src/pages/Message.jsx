@@ -55,8 +55,8 @@ const Message = () => {
                 <div
                   className={
                     c.userId == currentUser._id
-                      ? "bg-slate-200 p-2  flex justify-start items-center"
-                      : "bg-blue-400 p-2 flex flex-row-reverse items-center "
+                      ? " p-2  flex justify-start items-center"
+                      : " p-2 flex flex-row-reverse items-center "
                   }
                   key={c._id}
                 >

@@ -1,9 +1,12 @@
 import React, { useRef, useState } from "react";
 import Slide from "../components/Slide";
 import { useNavigate } from "react-router-dom";
+import CatCard from "../components/CatCard";
+import { useQuery } from "@tanstack/react-query";
+import newRequest from "../utils/api";
 export default function Home() {
-  const sliderCart = useRef(null);
-  const sliderProject = useRef(null);
+  // const sliderCart = useRef(null);
+  // const sliderProject = useRef(null);
 
   const [inout, setInput] = useState("");
   const navigate = useNavigate();
@@ -11,7 +14,14 @@ export default function Home() {
   const handleSubmit = () => {
     navigate(`/gigs/?search=${inout}`);
   };
-
+  const { isPending, error, data } = useQuery({
+    queryKey: ["gigs"],
+    queryFn: () =>
+      newRequest.get("/api/gig/").then((res) => {
+        return res.data;
+      }),
+  });
+  console.log(data);
   const carts = [
     {
       id: 1,
@@ -62,15 +72,6 @@ export default function Home() {
       img: "https://images.pexels.com/photos/15032623/pexels-photo-15032623.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
     },
   ];
-  const settingCart = {
-    dots: false,
-    infinite: true,
-    arrows: false,
-    speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 5,
-    arrows: true,
-  };
 
   const projects = [
     {
@@ -130,15 +131,7 @@ export default function Home() {
       username: "Ward Brewer",
     },
   ];
-  const settingProject = {
-    dots: false,
-    infinite: true,
-    arrows: false,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
-    arrows: true,
-  };
+
   return (
     <div>
       {/*  poster */}
@@ -201,26 +194,19 @@ export default function Home() {
       </div>
 
       {/*  slider carts */}
-      <div className=" m-auto my-16 bg-green-300">
-        {/*  <Slider ref={sliderCart} {...settingCart} className="max-w-4xl m-auto">
-          {carts.map((c) => {
-            return (
-              <Slide key={c.id}>
-                <div className="relative mx-3 cursor-pointer ">
-                  <div className="absolute top-0 w-full bg-black opacity-45 hover:opacity-70 h-full rounded-md"></div>
-
-                  <img src={c.img} className=" rounded-md " />
-
-                  <div className="absolute top-0 text-sm text-white pl-3 pt-2 font-semibold">
-                    <h4>{c.title}</h4>
-                    <p>{c.desc}</p>
-                  </div>
-                </div>
-              </Slide>
-            );
-          })}
-        </Slider> */}
-      </div>
+      {isPending ? (
+        "Loading"
+      ) : error ? (
+        "error"
+      ) : (
+        <div className=" m-auto my-16 w-4/5">
+          <Slide slidesToShow={5} arrowsScroll={5}>
+            {data.map((card) => (
+              <CatCard key={card._id} card={card} />
+            ))}
+          </Slide>
+        </div>
+      )}
 
       {/*  fingertips */}
       <div className=" bg-green-100 py-9">
@@ -340,34 +326,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      {/* slider products */}
-      {/* <div className=" m-auto my-16 bg-green-300">
-        <Slider
-          ref={sliderProject}
-          {...settingProject}
-          className="max-w-4xl m-auto"
-        >
-          {projects.map((c) => {
-            return (
-              <Slide key={c.id}>
-                <div className=" mx-3 cursor-pointer rounded-md  overflow-hidden ">
-                  <img src={c.img} className=" h-44 " />
-                  <div className=" flex justify-between items-center h-24  text-sm bg-white px-2 pt-2 font-semibold">
-                    <div className="w-1/2 ">
-                      <img src={c.pp} className="w-10 h-10 rounded-full" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-400">{c.cat}</p>
-                      <p className="text-xs text-gray-500">{c.username}</p>
-                    </div>
-                  </div>
-                </div>
-              </Slide>
-            );
-          })}
-        </Slider>
-      </div> */}
     </div>
   );
 }
