@@ -12,7 +12,7 @@ function MyGigs() {
   const { isPending, error, data } = useQuery({
     queryKey: ["myGigs"],
     queryFn: () =>
-      newRequest.get(`/api/gig?userId=${currentUser._id}`).then((res) => {
+      newRequest.get(`/api/gig/${currentUser._id}`).then((res) => {
         return res.data;
       }),
   });

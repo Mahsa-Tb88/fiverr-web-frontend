@@ -23,7 +23,7 @@ const Add = () => {
       queryClient.invalidateQueries(["myGigs"]);
     },
   });
-
+  console.log(state);
   const handleChange = (e) => {
     dispatch({
       type: "CHANGE_INPUT",
@@ -59,7 +59,7 @@ const Add = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     mutation.mutate(state);
-    navigate("/myGigs");
+    // navigate("/myGigs");
   };
   console.log(state);
   return (
